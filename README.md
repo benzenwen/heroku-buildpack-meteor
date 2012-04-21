@@ -1,4 +1,7 @@
 # Heroku buildpack for meteor
+Forked from https://github.com/jordansissel/heroku-buildpack-meteor
+
+(Changed MongoDB hoster to MongoLab.)
 
 ## Usage
 
