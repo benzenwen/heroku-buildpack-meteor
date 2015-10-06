@@ -6,7 +6,7 @@ Forked from https://github.com/jordansissel/heroku-buildpack-meteor
 ## Usage
 
 ```
-% heroku create --stack cedar --buildpack https://github.com/benzenwen/heroku-buildpack-meteor.git
+% heroku create --buildpack https://github.com/benzenwen/heroku-buildpack-meteor.git
 ```
 
 ## Example
@@ -14,34 +14,60 @@ Forked from https://github.com/jordansissel/heroku-buildpack-meteor
 Create a sample app with 'meteor'
 
 ```
-% meteor create --example wordplay
-wordplay: created.
+% meteor create --example todos
+todos: created.
 
 To run your new app:
-   cd wordplay
+   cd todos
    meteor
 ```
 
 Put it in git.
 
 ```
-% cd wordplay
+% cd todos
 % git init
-Initialized empty Git repository in /tmp/a/wordplay/.git/
+Initialized empty Git repository in /tmp/a/todos/.git/
 % git add .
-% git commit -m "Sample wordplay app!"
+% git commit -m "Sample todos app!"
 ```
 
 Create your heroku app
 
 ```
-% heroku create --stack cedar --buildpack https://github.com/benzenwen/heroku-buildpack-meteor.git
+% heroku create --buildpack https://github.com/benzenwen/heroku-buildpack-meteor.git
+```
+
+Or if your Heroku app already exists
+
+```
+% heroku buildpacks:set https://github.com/jordansissel/heroku-buildpack-meteor.git
+```
+
+Configure your plugins & settings
+
+```
+% heroku addons:create mongolab:sandbox  # optional: use whatever mongo provider you prefer
+% heroku config:add MONGO_URL=<insert_value_of_MONGOLAB_URI_here>
+% heroku config:add ROOT_URL=<insert_url_created_above_here>
+```
+
+Add [session affinity](https://devcenter.heroku.com/articles/session-affinity) so your app will still work with more than one dyno
+```
+% heroku labs:enable http-session-affinity
+```
+
+Optional step, if you are using a ```settings.json``` file to configure your Meteor application
+
+```
+% heroku config:add METEOR_SETTINGS="$(cat settings.json)"
+>>>>>>> upstream/master
 ```
 
 Deploy it
 
 ```
-% git push heroku
+% git push heroku master
 ```
 
 Enjoy!
